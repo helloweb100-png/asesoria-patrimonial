@@ -1,9 +1,8 @@
 /* ==========================================================================
    Asesora Patrimonial · script.js
-   Todo lo visual funciona sin librerías: anime.js (CDN) solo suma la entrada
-   elástica de la maqueta 3D. Si la CDN falla, la página se ve completa.
+   Todo lo visual funciona sin librerías.
    Índice: 0 Configuración · 1 Utilidades · 2 WhatsApp · 3 Cargador · 4 Header
-           5 Revelados · 6 Motor de scroll · 7 Hero · 8 Maqueta 3D · 9 Detalles
+           5 Revelados · 6 Motor de scroll · 7 Hero · 8 Maqueta · 9 Detalles
            10 Contadores · 11 FAQ · 12 Formulario · 13 Extras · 14 Arranque
    ========================================================================== */
 (() => {
@@ -448,25 +447,35 @@
     hero.addEventListener('pointerleave', () => { tx = ty = 0; if (!running) { running = true; requestAnimationFrame(loop); } });
   }
 
-  /* 8 · MAQUETA 3D (elige tu número) ------------------------------------------------------------------ */
+  /* 8 · MAQUETA (fotos + elige tu número) ------------------------------------------------------------------ */
   function initMaqueta() {
-    const plane = $('#maqPlane');
-    const world = $('#maqWorld');
-    const stage = $('#maqStage');
     const panel = $('#maqPanel');
     const wraps = [$('#maqChips'), $('#formChips')].filter(Boolean);
-    if (!plane || !world || !stage) return;
 
-    // Lofts 3D
-    for (let n = 1; n <= TOTAL_LOFTS; n++) {
-      const el = document.createElement('div');
-      el.className = 'loft' + (n % 2 === 0 ? ' is-up' : '');
-      el.dataset.loft = String(n);
-      el.style.setProperty('--i', String(n - 1));
-      el.innerHTML = '<span class="loft__f loft__top"></span><span class="loft__f loft__s"><b>' + pad2(n) + '</b><i>' + arrowOf(n) + '</i></span><span class="loft__f loft__w"></span><span class="loft__f loft__e"></span><span class="loft__f loft__n"></span>';
-      plane.appendChild(el);
+    // Fotos de la maqueta: miniaturas y deslizar
+    const shots = $$('.maq__shot');
+    const thumbs = $$('.maq__thumb');
+    const box = $('.maq__shots');
+    if (shots.length && shots.length === thumbs.length) {
+      let cur = 0;
+      const show = (i) => {
+        cur = (i + shots.length) % shots.length;
+        shots.forEach((s, k) => s.classList.toggle('is-on', k === cur));
+        thumbs.forEach((t, k) => t.setAttribute('aria-pressed', String(k === cur)));
+      };
+      thumbs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+      if (box) {
+        let sx = null;
+        box.addEventListener('pointerdown', (e) => { sx = e.clientX; });
+        box.addEventListener('pointerup', (e) => {
+          if (sx === null) return;
+          const dx = e.clientX - sx;
+          sx = null;
+          if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+        });
+        box.addEventListener('pointercancel', () => { sx = null; });
+      }
     }
-    const lofts = $$('.loft', plane);
 
     // Chips accesibles (maqueta y formulario)
     wraps.forEach((wrap) => {
@@ -491,7 +500,7 @@
     function renderPanel() {
       if (!panel) return;
       if (!state.loft) {
-        panel.innerHTML = '<p class="maq__panel-empty">Aún no eliges. Toca cualquier loft de la maqueta o un número de abajo.</p>';
+        panel.innerHTML = '<p class="maq__panel-empty">Aún no eliges. Toca un número de abajo.</p>';
         return;
       }
       const n = state.loft;
@@ -506,89 +515,10 @@
 
     function select(n) {
       state.loft = n;
-      lofts.forEach((l) => l.classList.toggle('is-active', Number(l.dataset.loft) === n));
       $$('.chip[data-loft]').forEach((c) => c.setAttribute('aria-pressed', String(Number(c.dataset.loft) === n)));
       renderPanel();
     }
     renderPanel();
-
-    // Rotación: automática (vaivén suave) + arrastre
-    const wide = () => window.matchMedia('(min-width: 900px)').matches;
-    let base = wide() ? { rx: 56, rz: -30 } : { rx: 58, rz: -38 };
-    let tRx = base.rx, tRz = base.rz, rx = base.rx, rz = base.rz, sway = 0;
-    let dragging = false, moved = false, sx = 0, sy = 0, lx = 0, ly = 0, downLoft = null, touched = false;
-    let visible = false, raf = 0;
-    world.style.transform = `rotateX(${rx}deg) rotateZ(${rz}deg)`;
-
-    stage.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      dragging = true; moved = false; touched = true;
-      sx = lx = e.clientX; sy = ly = e.clientY;
-      downLoft = e.target.closest ? e.target.closest('.loft') : null;
-      stage.classList.add('is-drag');
-      try { stage.setPointerCapture(e.pointerId); } catch (_) { /* ignorar */ }
-    });
-    stage.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      const dx = e.clientX - lx, dy = e.clientY - ly;
-      lx = e.clientX; ly = e.clientY;
-      if (Math.hypot(e.clientX - sx, e.clientY - sy) > 6) moved = true;
-      tRz += dx * 0.4;
-      if (e.pointerType === 'mouse') tRx = clamp(tRx - dy * 0.22, 38, 76);
-    });
-    const endDrag = (e) => {
-      if (!dragging) return;
-      dragging = false;
-      stage.classList.remove('is-drag');
-      if (!moved && downLoft && e.type === 'pointerup') select(Number(downLoft.dataset.loft));
-      downLoft = null;
-    };
-    stage.addEventListener('pointerup', endDrag);
-    stage.addEventListener('pointercancel', endDrag);
-
-    const tick = (t) => {
-      if (!visible) { raf = 0; return; }
-      const targetSway = dragging || reduce() ? 0 : Math.sin(t / 2200) * 9;
-      sway += (targetSway - sway) * 0.05;
-      rz += (tRz - rz) * 0.09;
-      rx += (tRx - rx) * 0.09;
-      world.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateZ(${(rz + sway).toFixed(2)}deg)`;
-      raf = requestAnimationFrame(tick);
-    };
-    const startLoop = () => { if (!raf && visible) raf = requestAnimationFrame(tick); };
-
-    window.matchMedia('(min-width: 900px)').addEventListener('change', () => {
-      if (touched) return;
-      base = wide() ? { rx: 56, rz: -30 } : { rx: 58, rz: -38 };
-      tRx = base.rx; tRz = base.rz;
-    });
-
-    // Entrada elástica con anime.js (si la CDN cargó) cuando la maqueta aparece
-    let entered = false;
-    const enter = () => {
-      if (entered) return;
-      entered = true;
-      if (reduce() || !window.anime) return;
-      const cols = getComputedStyle(plane).gridTemplateColumns.split(' ').length || 4;
-      const rows = Math.ceil(TOTAL_LOFTS / cols);
-      lofts.forEach((l) => { l.style.transition = 'none'; }); // anime controla el transform mientras sube cada loft
-      window.anime({
-        targets: lofts,
-        translateZ: [-110, 0],
-        duration: 1600,
-        delay: window.anime.stagger(75, { grid: [cols, rows], from: 'center' }),
-        easing: 'easeOutElastic(1, .65)',
-        complete: () => lofts.forEach((l) => { l.style.transform = ''; l.style.transition = ''; }),
-      });
-    };
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver((en) => {
-        visible = en[0].isIntersecting;
-        if (visible) { startLoop(); enter(); }
-      }, { threshold: 0.25 }).observe(stage);
-    } else {
-      visible = true; startLoop(); enter();
-    }
   }
 
   /* 9 · DETALLES: puntos interactivos con ciclo automático ------------------------------------------------ */

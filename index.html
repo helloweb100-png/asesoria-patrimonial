@@ -191,7 +191,7 @@
           <li class="chip-card"><strong>78.60 m²</strong><span>construcción · ficha de referencia</span></li>
           <li class="chip-card"><strong>3,000 L</strong><span>cisterna</span></li>
           <li class="chip-card"><strong>A/C</strong><span>preparación de aire acondicionado</span></li>
-          <li class="chip-card chip-card--wide"><strong>Crédito</strong><span>servicio de asesoramiento</span></li>
+          <li class="chip-card chip-card--wide"><strong>Crédito</strong><span>aceptamos todos los créditos y también servicio de asesoramiento</span></li>
         </ul>
       </div>
 
@@ -248,7 +248,7 @@
       </div>
     </section>
 
-    <!-- ============ LOS 14 · MAQUETA 3D ============ -->
+    <!-- ============ LOS 14 · MAQUETA ============ -->
     <section class="section maq" id="lofts" aria-labelledby="lofts-title">
       <div class="maq__glow" aria-hidden="true"></div>
       <div class="container maq__grid">
@@ -256,21 +256,27 @@
           <p class="eyebrow" data-reveal>Los 14</p>
           <h2 id="lofts-title" class="h2" data-split>Elige tu <em>número.</em></h2>
           <p class="lead" data-reveal>
-            Gira la maqueta, toca un loft y cuéntanos cuál es el tuyo. Cada puerta lleva su número y su flecha, como en el proyecto.
+            Mira la maqueta, elige un número y cuéntanos cuál es el tuyo. Cada puerta lleva su número y su flecha, como en el proyecto.
           </p>
           <div class="maq__panel" id="maqPanel" aria-live="polite" data-reveal>
-            <p class="maq__panel-empty">Aún no eliges. Toca cualquier loft de la maqueta o un número de abajo.</p>
+            <p class="maq__panel-empty">Aún no eliges. Toca un número de abajo.</p>
           </div>
         </div>
         <div class="maq__scene" data-reveal="scale">
-          <div class="maq__stage" id="maqStage">
-            <div class="maq__world" id="maqWorld">
-              <div class="maq__plane" id="maqPlane"></div>
-            </div>
+          <div class="maq__shots" role="group" aria-label="Fotos de la maqueta del proyecto">
+            <figure class="maq__shot is-on"><img src="assets/img/maqueta-calle.jpg" width="1600" height="1293" loading="lazy" decoding="async" alt="Maqueta del proyecto vista desde la calle: fachadas blancas con muros de piedra gris numerados del 1 al 8, cocheras empedradas, árboles, reja negra y el letrero de los lofts"></figure>
+            <figure class="maq__shot"><img src="assets/img/maqueta-aerea.jpg" width="1080" height="1294" loading="lazy" decoding="async" alt="Vista aérea de la maqueta: azoteas con tinacos, los dos estacionamientos con autos y la distribución interior de dos lofts abiertos"></figure>
+            <figure class="maq__shot"><img src="assets/img/maqueta-interiores.jpg" width="1600" height="1384" loading="lazy" decoding="async" alt="Maqueta con los lofts abiertos para ver su distribución interior: cocina, recámaras y azotea con tinacos"></figure>
+            <figure class="maq__shot"><img src="assets/img/maqueta-estacionamiento.jpg" width="1600" height="1440" loading="lazy" decoding="async" alt="Vista de la maqueta desde el estacionamiento: hilera de lofts, tinacos en azotea, autos, árboles y el letrero del proyecto"></figure>
           </div>
-          <p class="maq__hint" aria-hidden="true"><span class="maq__hint-ico">↻</span> Arrastra para girar · Toca un loft</p>
+          <div class="maq__thumbs" role="group" aria-label="Elegir foto de la maqueta">
+            <button class="maq__thumb" type="button" aria-pressed="true" aria-label="Foto 1 de 4: Vista desde la calle"><img src="assets/img/maqueta-calle.jpg" width="1600" height="1293" loading="lazy" decoding="async" alt=""></button>
+            <button class="maq__thumb" type="button" aria-pressed="false" aria-label="Foto 2 de 4: Vista aérea"><img src="assets/img/maqueta-aerea.jpg" width="1080" height="1294" loading="lazy" decoding="async" alt=""></button>
+            <button class="maq__thumb" type="button" aria-pressed="false" aria-label="Foto 3 de 4: Interiores"><img src="assets/img/maqueta-interiores.jpg" width="1600" height="1384" loading="lazy" decoding="async" alt=""></button>
+            <button class="maq__thumb" type="button" aria-pressed="false" aria-label="Foto 4 de 4: Estacionamiento"><img src="assets/img/maqueta-estacionamiento.jpg" width="1600" height="1440" loading="lazy" decoding="async" alt=""></button>
+          </div>
           <div class="chips" id="maqChips" role="group" aria-label="Elegir loft por número"></div>
-          <p class="maq__note">Maqueta ilustrativa: no representa la distribución real del desarrollo.</p>
+          <p class="maq__note">Fotografías de la maqueta del proyecto.</p>
         </div>
       </div>
     </section>
@@ -687,8 +693,6 @@
     <span class="wa-float__btn"><svg aria-hidden="true"><use href="#i-wa"/></svg></span>
   </a>
 
-  <!-- script.js primero: no depende de la CDN. anime.js es un extra opcional -->
   <script src="script.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js" defer></script>
 </body>
 </html>
