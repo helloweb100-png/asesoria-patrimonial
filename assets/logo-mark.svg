@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="160" height="160" role="img" aria-label="Asesora Patrimonial">
-  <rect x="1" y="1" width="38" height="38" rx="11" fill="#0D1117" stroke="#FFC46B" stroke-opacity=".6"/>
-  <path d="M10.5 29.5 20 9.5l9.5 20" fill="none" stroke="#FFC46B" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="160" height="160" role="img" aria-label="Jardines de Versalles lofts">
+  <rect x="1" y="1" width="38" height="38" rx="11" fill="#0D1117" stroke="#A97DFF" stroke-opacity=".6"/>
+  <path d="M10.5 29.5 20 9.5l9.5 20" fill="none" stroke="#A97DFF" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M14.8 23.2h10.4" stroke="#FBF9F5" stroke-width="2.2" stroke-linecap="round"/>
   <path d="M17 26.4h6L20 31.2z" fill="#FBF9F5"/>
 </svg>

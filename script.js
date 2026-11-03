@@ -13,7 +13,7 @@
      Único lugar donde vive el número de WhatsApp (52 + 10 dígitos).
      Si se deja vacío, el botón flotante y el envío del formulario se ocultan. */
   const WHATSAPP_NUMBER = '524771211951';
-  const BRAND = 'Asesora Patrimonial';
+  const BRAND = 'Jardines de Versalles lofts';
   const TOTAL_LOFTS = 14;
 
   const root = document.documentElement;
@@ -392,9 +392,9 @@
         if (p.x < -10) p.x = w + 10;
         if (p.x > w + 10) p.x = -10;
         const tw = 0.55 + 0.45 * Math.sin(t / 700 + p.ph);
-        ctx.fillStyle = `rgba(255,206,132,${(p.a * 0.18 * tw).toFixed(3)})`;
+        ctx.fillStyle = `rgba(201,174,255,${(p.a * 0.18 * tw).toFixed(3)})`;
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 4, 0, 6.2832); ctx.fill();
-        ctx.fillStyle = `rgba(255,224,170,${(p.a * tw).toFixed(3)})`;
+        ctx.fillStyle = `rgba(224,208,255,${(p.a * tw).toFixed(3)})`;
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
       }
       ctx.lineWidth = 0.7;
@@ -403,7 +403,7 @@
           const a = parts[i], b = parts[j];
           const dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
           if (d2 < 12100) {
-            ctx.strokeStyle = `rgba(255,196,107,${((1 - Math.sqrt(d2) / 110) * 0.2).toFixed(3)})`;
+            ctx.strokeStyle = `rgba(169,125,255,${((1 - Math.sqrt(d2) / 110) * 0.2).toFixed(3)})`;
             ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
           }
         }
@@ -496,7 +496,7 @@
       }
       const n = state.loft;
       panel.innerHTML = '<div class="maq__sel"><span class="maq__sel-n">' + pad2(n) + '<i>' + arrowOf(n) + '</i></span><div><strong>Loft ' + pad2(n) + '</strong><p>Pregunta por su disponibilidad, medidas y esquema de crédito. Te respondemos por WhatsApp.</p></div></div>' +
-        '<a class="btn btn--amber" href="#contacto" data-wa data-msg="Hola, me interesa el loft ' + pad2(n) + ' de Asesora Patrimonial. ¿Me compartes su ficha, disponibilidad y opciones de crédito?">Quiero saber del loft ' + pad2(n) + ' <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>';
+        '<a class="btn btn--amber" href="#contacto" data-wa data-msg="Hola, me interesa el loft ' + pad2(n) + ' de Jardines de Versalles lofts. ¿Me compartes su ficha, disponibilidad y opciones de crédito?">Quiero saber del loft ' + pad2(n) + ' <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>';
       const a = $('a[data-wa]', panel);
       if (a) {
         if (hasWA) applyWA(a);
